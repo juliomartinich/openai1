@@ -47,31 +47,31 @@ vectores = read_stored_embeddings(file_name = "vectores_de_animales.csv")
 palabras   = vectores[0]
 embeddings = vectores[1]
 
-print(len(palabras), len(embeddings))
-print("------ ")
+print(" ")
 
+print("-- palabras leidas --")
 for i in range(len(embeddings)):
   print(i, palabras[i])
-print("------ ")
 
+# calculo todos los producto punto y obtengo los mas cercanos y mas lejanos
 mas_cerca = 0
 mas_lejos = 1
 for i in range(len(embeddings)):
-  for j in range(i,len(embeddings)):
-    punto = 1 if i==j else dot_product(embeddings[i],embeddings[j])
-    print(palabras[i], palabras[j], punto)
-    if i != j :
-      if punto > mas_cerca :
-        mas_cerca = punto
-        i_mc = i
-        j_mc = j
-      if punto < mas_lejos :
-        mas_lejos = punto
-        i_ml = i
-        j_ml = j
+  for j in range(i+1,len(embeddings)):
+    punto = dot_product(embeddings[i],embeddings[j])
+    if punto > mas_cerca :
+      mas_cerca = punto
+      i_mc = i
+      j_mc = j
+    if punto < mas_lejos :
+      mas_lejos = punto
+      i_ml = i
+      j_ml = j
 
-print(" ---- mas cercanos ---")
+print("--- mas cercanos ---")
 print(palabras[i_mc], palabras[j_mc], mas_cerca)
-print(" ---- mas lejanos ---")
+
+print("--- mas lejanos ---")
 print(palabras[i_ml], palabras[j_ml], mas_lejos)
+print(" ")
 
