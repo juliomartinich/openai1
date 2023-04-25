@@ -1,4 +1,7 @@
 # operaciones leyendo vectores embeddings guardados en un archivo csv
+#
+# estoy tratando de calcular el segundo mayor, en base al ejemplo cv.py
+#
 def dot_product(vector1, vector2):
   # Calculates the dot product of two vectors.
   # Check that the vectors have the same size.
@@ -54,15 +57,35 @@ for i in range(len(embeddings)):
   print(i, palabras[i])
 
 # calculo todos los producto punto y obtengo los mas cercanos y mas lejanos
-mas_cerca = 0
+mas_cerca = segundo_mas_cerca = 0
+i_mc = j_mc = i_smc = j_smc = 0
 mas_lejos = 1
 for i in range(len(embeddings)):
   for j in range(i+1,len(embeddings)):
     punto = dot_product(embeddings[i],embeddings[j])
+    print(palabras[i], palabras[j], punto)
     if punto > mas_cerca :
+      tercero_mas_cerca = segundo_mas_cerca
+      i_tmc = i_smc
+      j_tmc = j_smc
+      segundo_mas_cerca = mas_cerca
+      i_smc = i_mc
+      j_smc = j_mc
       mas_cerca = punto
       i_mc = i
       j_mc = j
+    elif punto > segundo_mas_cerca:
+      tercero_mas_cerca = segundo_mas_cerca
+      i_tmc = i_smc
+      j_tmc = j_smc
+      segundo_mas_cerca = punto
+      i_smc = i
+      j_smc = j
+    elif punto > tercero_mas_cerca:
+      tercero_mas_cerca = punto
+      i_tmc = i
+      j_tmc = j
+
     if punto < mas_lejos :
       mas_lejos = punto
       i_ml = i
@@ -70,6 +93,12 @@ for i in range(len(embeddings)):
 
 print("--- mas cercanos ---")
 print(palabras[i_mc], palabras[j_mc], mas_cerca)
+
+print("--- siguientes mas cercanos ---")
+print(palabras[i_smc], palabras[j_smc], segundo_mas_cerca)
+
+print("--- siguientes mas cercanos ---")
+print(palabras[i_tmc], palabras[j_tmc], tercero_mas_cerca)
 
 print("--- mas lejanos ---")
 print(palabras[i_ml], palabras[j_ml], mas_lejos)
