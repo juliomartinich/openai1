@@ -1,4 +1,5 @@
-# operaciones leyendo vectores embeddings guardados en un archivo csv
+# lee vectores embeddings guardados en un archivo csv
+# pide que se ingrese un texto, calcula su embedding y busca cual es el mas cercano
 
 def read_embedding(texto):
 
@@ -61,8 +62,6 @@ def read_stored_embeddings(file_name):
 # lee lista de embeddings y calcula algunos cos similarity
 # como la magnitud de los vectores es 1, el cos similarity es el producto punto
 
-# Define the file name and path where the CSV file is located
-
 import sys, openai, os
 
 openai.api_key = os.environ.get('OPENAIAPIKEY')
@@ -87,19 +86,18 @@ mas_cercano = -1
 imc = 0
 resultados = []
 for i in range(len(embeddings)):
-   resultado = dot_product(vector, embeddings[i])
-   resultados.append(resultado)
-   if resultado > mas_cercano:
-      mas_cercano = resultado
-      imc = i
+  resultado = dot_product(vector, embeddings[i])
+  resultados.append(resultado)
+  if resultado > mas_cercano:
+    mas_cercano = resultado
+    imc = i
 
 print(" ")
 print("mas cercano = ", mas_cercano)
 print(textos[imc])
 print(imc, archivos[imc])
 print(" ")
+
 for i in range(len(embeddings)):
   print(i, resultados[i], textos[i][0:70])
-
-
 

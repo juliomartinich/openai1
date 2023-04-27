@@ -100,14 +100,15 @@ print(imc, archivos[imc])
 print(" ")
 
 prompt_prologo = "Por favor responde la siguiente pregunta: "
-prompt_epilogo = " basado en la informacion que te doy a continuacion: "
+prompt_epilogo = " basado estrictamente en la informacion que te doy a continuacion "
+prompt_post    = "; en el caso en que no este relacionado, responde: No tengo esa informacion.  Aca va la informacion que debes usar en caso de estar relacionados (recuerda usar solamente esta informacion para responder): "
 
-prompt = prompt_prologo + texto_a_buscar + prompt_epilogo + textos[imc]
+prompt = prompt_prologo + texto_a_buscar + prompt_epilogo + prompt_post + textos[imc]
 
 respuesta = openai.Completion.create(
        prompt = prompt,
        model  = "text-davinci-003",
-       max_tokens = 100,
+       max_tokens = 1000,
        temperature = 0
 )["choices"][0]["text"]
 

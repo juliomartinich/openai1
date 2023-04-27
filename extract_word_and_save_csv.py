@@ -1,6 +1,10 @@
+# obtengo una lista de de archivos word 
+# a partir del directorio Desktop leyendo sus subdirectorios
+# los corto en largos de varios parrafos
+# hasta completar 500 letras, y los guardo en un csv
+# ----------------------------------------------------------
 import os, csv, docx
 
-# leo una lista de parrafos de archivos word y los guardo en un csv
 print("--- leo una lista de parrafos de los archivos que encuentre ---")
 file_name = "mis_word.csv"
 # Open the file in write mode
