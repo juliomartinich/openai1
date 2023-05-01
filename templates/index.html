@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>usa OPENAI GPT para mis archivos</title>
+</head>
+<body>
+  <h1>respuestas de OPENAI GPT basadas en mis archivos </h1>
+  <form action="/submit" method="post">
+    <p>Ingrese una pregunta que quiera hacer a sus archivos word:</p>
+    <p>¿ <input type="text" name="fpregunta" size=90> ?
+         <input type="submit" value="Submit">
+         <a href="..">      inicio</a></p>
+  </form>
+  {% if frespuesta %}
+    <p><b>Pregunta realizada:</b>¿ {{ fpregunta }} ?</p>
+    <p><b>Respuesta:</b> {{ frespuesta }}</p>
+    <hr>
+    <p>basado en el siguiente parrafo del archivo <b>{{ farchivo }}</b></p>
+    <p><b>parrafos solos:</b> {{ fparrafo }}</p>
+    <hr>
+    <p><b>prompt enviado:</b> {{ fprompt }} </p>
+    <p><b>Coincidencia = </b> {{ fclosest}} </p>
+  {% endif %}
+</body>
+</html>
+
