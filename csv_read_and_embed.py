@@ -1,7 +1,7 @@
 # lee un archivo csv con textos ,calcula sus embeddings y los salva en otro csv
 import openai, os, csv
 
-openai.api_key = os.environ.get('OPENAIAPIKEY')
+openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 def read_embedding(texto):
 

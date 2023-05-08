@@ -64,7 +64,7 @@ def read_stored_embeddings(file_name):
 
 import sys, openai, os
 
-openai.api_key = os.environ.get('OPENAIAPIKEY')
+openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 vectores = read_stored_embeddings(file_name = "mis_word_embed.csv")
 parrafos   = vectores[0]

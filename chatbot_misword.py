@@ -77,9 +77,9 @@ print(" ")
 
 print("-- textos leidos --")
 for i in range(len(embeddings)):
-  print(i, textos[i][0:70])
+  print(i, textos[i][0:90])
 
-print("ingrese una pregunta y le respondere en base al texto mas cercano : ")
+print("\nIngrese una pregunta y le respondere en base al texto mas cercano : ")
 texto_a_buscar = input()
 vector = read_embedding(texto_a_buscar)
 
@@ -116,6 +116,4 @@ print(" ")
 print("respuesta de IA = ", respuesta)
 print(" ")
 
-for i in range(len(embeddings)):
-  print(i, resultados[i], textos[i][0:70])
 
