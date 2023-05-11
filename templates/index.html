@@ -2,26 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>usa OPENAI GPT para mis archivos</title>
+  <title>Usa OPENAI GPT para mis archivos</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+
+    .container {
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    .parrafos {
+      text-align: center;
+      font-size: 10px;
+    }
+
+    h1, h2, p {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 95%;
+      justify-content: center;
+      box-sizing: border-box;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="submit"] {
+      margin-top: 20px;
+      justify-content: center;
+      width: 100%;
+      display: inline-block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 20px 0;
+    }
+
+    b {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h1>respuestas de OPENAI GPT basadas en mis archivos </h1>
-  <form action="/submit" method="post">
-    <p>Ingrese una pregunta que quiera hacer a sus archivos word:</p>
-    <p>¿ <input type="text" name="fpregunta" size=90> ?
-         <input type="submit" value="Submit">
-         <a href="..">      inicio</a></p>
-  </form>
-  {% if frespuesta %}
-    <p><b>Pregunta realizada:</b>¿ {{ fpregunta }} ?</p>
-    <p><b>Respuesta:</b> {{ frespuesta }}</p>
-    <hr>
-    <p>basado en el siguiente parrafo del archivo <b>{{ farchivo }}</b></p>
-    <p><b>parrafos solos:</b> {{ fparrafo }}</p>
-    <hr>
-    <p><b>prompt enviado:</b> {{ fprompt }} </p>
-    <p><b>Coincidencia = </b> {{ fclosest}} </p>
-  {% endif %}
+  <div class="container">
+    <h2>Respuestas de OPENAI GPT basadas en mi información</h2>
+    <form action="/submit" method="post">
+      <p>Ingrese una pregunta y le respondere con la informacion entregada:</p>
+      <p> ¿ <input type="text" name="fpregunta" size="90"> ? </p>
+      <p> <input type="submit" value="Obtenga la respuesta"> </p>
+      <p> <a href="..">Volver al inicio</a></p>
+    </form>
+    {% if frespuesta %}
+      <p><b>Pregunta realizada:</b> ¿{{ fpregunta }}?</p>
+      <p><b>Respuesta:</b> {{ frespuesta }}</p>
+      <hr>
+      <p class="parrafos"><b>Coincidencia = </b> {{ fclosest }}</p>
+      <p class="parrafos">Basado en el siguiente párrafo del archivo <b>{{ farchivo }}</b></p>
+      <p class="parrafos"><b>Párrafos solos:</b> {{ fparrafo }}</p>
+      <hr>
+      <p class="parrafos"><b>Prompt enviado:</b> {{ fprompt }}</p>
+    {% endif %}
+  </div>
 </body>
 </html>
 

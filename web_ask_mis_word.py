@@ -90,7 +90,7 @@ def get_answer(pregunta, embeddings, textos, archivos):
     if resultado > mas_cercano:
       mas_cercano = resultado
       imc = i
-  pc_mas_cercano = 100 * mas_cercano
+  pc_mas_cercano = round( 100 * mas_cercano, 1)
   # despues de este loop imc tiene el indice del mas cercano
 
   archivo = archivos[imc]
@@ -100,16 +100,18 @@ def get_answer(pregunta, embeddings, textos, archivos):
   contexto_posterior = " "
   if imc < len(archivos)-1 and archivos[imc+1] == archivo:
     contexto_posterior = " " + textos[imc+1] + " "
-  contexto = contexto_anterior + textos[imc] + contexto_posterior
+  # contexto = contexto_anterior + textos[imc] + contexto_posterior
+  # hago una prueba solo con el texto encontrado
+  contexto = textos[imc]
 
   prompt_prologo = " Basado en la siguiente informacion: "
   prompt_post    = " Responde la siguiente pregunta en no mas de 100 palabras \
                      solamente basado en la informacion anterior: ¿ "
   prompt_post_2  = " ? Si la pregunta no se relaciona con la \
                      informacion proporcionada responde: \
-                     No encuentro informacion relacionada con la pregunta.  \
-                     Si la pregunta esta relacionada, entonces responde \
-                     comenzando con: De acuerdo a la informacion proporcionada, "
+                     No encuentro informacion relacionada con la pregunta. "
+                     #Si la pregunta esta relacionada, entonces responde \
+                     #comenzando con: De acuerdo a la informacion proporcionada, "
 
   prompt = prompt_prologo \
          + contexto       \
