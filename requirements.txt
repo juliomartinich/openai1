@@ -1,0 +1,6 @@
+Flask==2.3.2
+numpy==1.24.2
+openai==0.27.4
+PyPDF2==3.0.1
+python_docx==0.8.11
+sentence_transformers==2.2.2
