@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, session
 import sys, os, openai
-#---------------------------------------------------------------------------
+#----------------------------------------------------------------
 # esta version toma el contenido anterior y posterior para el prompt
-# ademas intenta una defensa de prompt injection sacando signos de puntuacion
-#---------------------------------------------------------------------------
+# ademas intenta una defensa de prompt injection 
+# sacando signos de puntuacion
+# agrego un login simple
+#-----------------------------------------------------------------
 def eliminar_signos_especiales(cadena):
     """
     Esta función elimina todos los signos especiales de un string 
@@ -75,14 +77,10 @@ def read_stored_embeddings(file_name):
   # embeddings[] cada item es el embedding de más de 1500 posiciones
   return parrafos, archivos, textos, embeddings
 
-def get_answer(pregunta, embeddings, textos, archivos):
-#-- lee el vector embedding de la pregunta
-#-- calcula el texto mas cercano
-#-- en base a la pregunta y los textos mas cercanos
-#-- construye un prompt para que se responda la pregunta
-
-
-  vector = read_embedding(pregunta)
+#--------------------------------
+def busca_contexto(vector, embeddings, textos):
+# busca el parrafo mas cercano a la pregunta 
+# usando el vector embedding de la pregunta
 
   mas_cercano = -1
   for i in range(len(embeddings)):
@@ -93,20 +91,34 @@ def get_answer(pregunta, embeddings, textos, archivos):
   pc_mas_cercano = round( 100 * mas_cercano, 1)
   # despues de este loop imc tiene el indice del mas cercano
 
-  archivo = archivos[imc]
-  contexto_anterior = " "
-  if imc > 0 and archivos[imc-1] == archivo:
-    contexto_anterior = " " + textos[imc-1] + " "
-  contexto_posterior = " "
-  if imc < len(archivos)-1 and archivos[imc+1] == archivo:
-    contexto_posterior = " " + textos[imc+1] + " "
+  #
+  #archivo = archivos[imc]
+  #contexto_anterior = " "
+  #if imc > 0 and archivos[imc-1] == archivo:
+  #  contexto_anterior = " " + textos[imc-1] + " "
+  #contexto_posterior = " "
+  #if imc < len(archivos)-1 and archivos[imc+1] == archivo:
+  #  contexto_posterior = " " + textos[imc+1] + " "
   # contexto = contexto_anterior + textos[imc] + contexto_posterior
   # hago una prueba solo con el texto encontrado
   contexto = textos[imc]
 
-  prompt_prologo = " Basado en la siguiente informacion: "
-  prompt_post    = " Responde la siguiente pregunta en no mas de 100 palabras \
-                     solamente basado en la informacion anterior: ¿ "
+  return contexto, imc, pc_mas_cercano
+
+#--------------------------------
+def get_answer(pregunta, embeddings, textos, archivos):
+#-- lee el vector embedding de la pregunta
+#-- calcula el texto mas cercano
+#-- en base a la pregunta y los textos mas cercanos
+#-- construye un prompt para que se responda la pregunta
+
+
+  vector = read_embedding(pregunta)
+
+  ( contexto, imc , pc_mas_cercano) = busca_contexto(vector, embeddings, textos)
+
+  prompt_prologo = " Basado solamente en la siguiente informacion: "
+  prompt_post    = " Responde la siguiente pregunta en no mas de 100 palabras "
   prompt_post_2  = " ? Si la pregunta no se relaciona con la \
                      informacion proporcionada responde: \
                      No encuentro informacion relacionada con la pregunta. "
@@ -138,6 +150,7 @@ def get_answer(pregunta, embeddings, textos, archivos):
 
 #----------------------------------------------------
 app = Flask(__name__)
+app.secret_key = 'your-secret-key'  # Clave secreta para la sesión
 
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 
@@ -148,12 +161,41 @@ archivos   = vector[1]
 textos     = vector[2]
 embeddings = vector[3]
 
+# Datos de usuarios (solo para ejemplo)
+users = {
+    'javier':  'surdelmundo',
+    'nicolas': 'pepelon',
+    'julio':   'boss'
+}
+
 #----------------------------------------------------
 # solamente se requiere un template index.html
 @app.route("/")
 def index():
-  respuesta = ""
-  return render_template("index.html", frespuesta=respuesta)
+  if 'username' in session:
+    respuesta = ""
+    return render_template("index.html", frespuesta=respuesta)
+  else:
+    return 'Por favor, inicia sesión en <a href="/login">login</a>'
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if username in users and users[username] == password:
+            session['username'] = username
+            return redirect('/')
+        else:
+            return 'Usuario o contraseña incorrectos.'
+
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect('/')
 
 @app.route("/submit", methods=["POST"])
 def submit():
