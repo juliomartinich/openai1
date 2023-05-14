@@ -1,10 +1,23 @@
 from flask import Flask, render_template, request, redirect, session
-import sys, os, openai
+import sys, os, openai, csv
+import time
+from datetime import datetime
 #----------------------------------------------------------------
 # esta version toma el contenido anterior y posterior para el prompt
 # ademas intenta una defensa de prompt injection 
 # sacando signos de puntuacion
 # agrego un login simple
+# agrego escritura  basica en csv
+# agrego timestamp al csv de preguntas
+#-----------------------------------------------------------------
+def escribir_en_archivo_csv(textos, nombre_archivo):
+    existe_archivo = os.path.isfile(nombre_archivo)
+
+    with open(nombre_archivo, 'a', newline='') as archivo_csv:
+        writer = csv.writer(archivo_csv)
+
+        writer.writerows(textos)  # Escribe las filas adicionales en el archivo existente
+
 #-----------------------------------------------------------------
 def eliminar_signos_especiales(cadena):
     """
@@ -112,18 +125,15 @@ def get_answer(pregunta, embeddings, textos, archivos):
 #-- en base a la pregunta y los textos mas cercanos
 #-- construye un prompt para que se responda la pregunta
 
-
   vector = read_embedding(pregunta)
 
   ( contexto, imc , pc_mas_cercano) = busca_contexto(vector, embeddings, textos)
 
   prompt_prologo = " Basado solamente en la siguiente informacion: "
-  prompt_post    = " Responde la siguiente pregunta en no mas de 100 palabras "
-  prompt_post_2  = " ? Si la pregunta no se relaciona con la \
-                     informacion proporcionada responde: \
-                     No encuentro informacion relacionada con la pregunta. "
-                     #Si la pregunta esta relacionada, entonces responde \
-                     #comenzando con: De acuerdo a la informacion proporcionada, "
+  prompt_post    = " Responde la siguiente pregunta en no mas de 100 palabras: ¿ "
+  prompt_post_2  = "  ? Si con la informacion proporcionada no se puede \
+                     responder la pregunta, responde solamente: \
+                     Intente hacer la pregunta de otra forma."
 
   prompt = prompt_prologo \
          + contexto       \
@@ -145,6 +155,12 @@ def get_answer(pregunta, embeddings, textos, archivos):
          max_tokens = 300,
          temperature = 0
   )["choices"][0]["message"]["content"]
+
+  # salvo la pregunta y respuesta en un csv
+  timestamp = int(time.time())
+  formatted_time = datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
+  salida_csv=[[formatted_time, pregunta, respuesta, imc, pc_mas_cercano]]
+  escribir_en_archivo_csv(salida_csv, "preguntas.csv")
 
   return respuesta, archivos[imc], contexto, prompt, pc_mas_cercano
 
