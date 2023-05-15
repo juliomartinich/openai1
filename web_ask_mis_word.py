@@ -132,7 +132,7 @@ def get_answer(pregunta, embeddings, textos, archivos):
   prompt_prologo = " Basado solamente en la siguiente informacion: "
   prompt_post    = " Responde la siguiente pregunta en no mas de 100 palabras: ¿ "
   prompt_post_2  = "  ? Si con la informacion proporcionada no se puede \
-                     responder la pregunta, responde solamente: \
+                     responder la pregunta, responde solamente y en forma precisa: \
                      Intente hacer la pregunta de otra forma."
 
   prompt = prompt_prologo \
@@ -159,16 +159,17 @@ def get_answer(pregunta, embeddings, textos, archivos):
   # salvo la pregunta y respuesta en un csv
   timestamp = int(time.time())
   formatted_time = datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
-  salida_csv=[[formatted_time, pregunta, respuesta, imc, pc_mas_cercano]]
+  usuario = session.get('username')
+  salida_csv=[[usuario, formatted_time, pregunta, respuesta, imc, pc_mas_cercano]]
   escribir_en_archivo_csv(salida_csv, "preguntas.csv")
 
   return respuesta, archivos[imc], contexto, prompt, pc_mas_cercano
 
 #----------------------------------------------------
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'  # Clave secreta para la sesión
 
 openai.api_key = os.environ.get('OPENAI_API_KEY')
+app.secret_key = openai.api_key  # Uso la OPENAI_API_KEY de clave secreta para la sesión
 
 # inicia el programa cargando los embeddings almacenados
 vector     = read_stored_embeddings(file_name = "mis_word_embed.csv")
@@ -177,15 +178,7 @@ archivos   = vector[1]
 textos     = vector[2]
 embeddings = vector[3]
 
-# Datos de usuarios (solo para ejemplo)
-users = {
-    'javier':  'surdelmundo',
-    'nicolas': 'pepelon',
-    'julio':   'boss'
-}
-
-#----------------------------------------------------
-# solamente se requiere un template index.html
+#+++++++++++++++++++++++++++++++++++++++
 @app.route("/")
 def index():
   if 'username' in session:
@@ -194,8 +187,15 @@ def index():
   else:
     return 'Por favor, inicia sesión en <a href="/login">login</a>'
 
+#+++++++++++++++++++++++++++++++++++++++
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # Datos de usuarios (solo para ejemplo)
+    users = {
+        'javier':  'surdelmundo',
+        'nicolas': 'pepelon',
+        'julio':   'boss'
+    }
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -208,11 +208,13 @@ def login():
 
     return render_template('login.html')
 
+#+++++++++++++++++++++++++++++++++++++++
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect('/')
 
+#+++++++++++++++++++++++++++++++++++++++
 @app.route("/submit", methods=["POST"])
 def submit():
   pregunta = request.form["fpregunta"]
