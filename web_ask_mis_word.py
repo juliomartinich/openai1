@@ -10,13 +10,22 @@ from datetime import datetime
 # agrego escritura  basica en csv
 # agrego timestamp al csv de preguntas
 #-----------------------------------------------------------------
-def escribir_en_archivo_csv(textos, nombre_archivo):
+def escribir_en_archivo_csv(vector, pregunta, respuesta, imc, pc_mas_cercano, nombre_archivo):
     existe_archivo = os.path.isfile(nombre_archivo)
-
     with open(nombre_archivo, 'a', newline='') as archivo_csv:
         writer = csv.writer(archivo_csv)
 
-        writer.writerows(textos)  # Escribe las filas adicionales en el archivo existente
+        registro = vector
+        usuario = session.get('username')
+        registro.append(usuario)
+        timestamp = int(time.time())
+        formatted_time = datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
+        registro.append(formatted_time)
+        registro.append(pregunta)
+        registro.append(respuesta)
+        registro.append(imc)
+        registro.append(pc_mas_cercano)
+        writer.writerow(registro)  # Escribe la fila adicional en el archivo existente
 
 #-----------------------------------------------------------------
 def eliminar_signos_especiales(cadena):
@@ -96,25 +105,22 @@ def busca_contexto(vector, embeddings, textos):
 # usando el vector embedding de la pregunta
 
   mas_cercano = -1
+  segundo_mas_cercano = -1
   for i in range(len(embeddings)):
     resultado = dot_product(vector, embeddings[i])
     if resultado > mas_cercano:
+      segundo_mas_cercano = mas_cercano
       mas_cercano = resultado
       imc = i
+    elif resultado > segundo_mas_cercano and resultado != mas_cercano:
+      segundo_mas_cercano = mas_cercano
+      ismc = i
+  
   pc_mas_cercano = round( 100 * mas_cercano, 1)
+  pc_segundo_mas_cercano = round( 100 * segundo_mas_cercano, 1)
   # despues de este loop imc tiene el indice del mas cercano
 
-  #
-  #archivo = archivos[imc]
-  #contexto_anterior = " "
-  #if imc > 0 and archivos[imc-1] == archivo:
-  #  contexto_anterior = " " + textos[imc-1] + " "
-  #contexto_posterior = " "
-  #if imc < len(archivos)-1 and archivos[imc+1] == archivo:
-  #  contexto_posterior = " " + textos[imc+1] + " "
-  # contexto = contexto_anterior + textos[imc] + contexto_posterior
-  # hago una prueba solo con el texto encontrado
-  contexto = textos[imc]
+  contexto = textos[imc] + " " + textos[ismc]
 
   return contexto, imc, pc_mas_cercano
 
@@ -130,10 +136,11 @@ def get_answer(pregunta, embeddings, textos, archivos):
   ( contexto, imc , pc_mas_cercano) = busca_contexto(vector, embeddings, textos)
 
   prompt_prologo = " Basado solamente en la siguiente informacion: "
-  prompt_post    = " Responde la siguiente pregunta en no mas de 100 palabras: ¿ "
+  prompt_post    = " Responde la siguiente pregunta en pocas palabras: ¿ "
   prompt_post_2  = "  ? Si con la informacion proporcionada no se puede \
-                     responder la pregunta, responde solamente y en forma precisa: \
-                     Intente hacer la pregunta de otra forma."
+                     responder la pregunta, responde solamente <EOF>"
+#solamente y en forma precisa: \
+#                     Intente hacer la pregunta de otra forma."
 
   prompt = prompt_prologo \
          + contexto       \
@@ -156,12 +163,11 @@ def get_answer(pregunta, embeddings, textos, archivos):
          temperature = 0
   )["choices"][0]["message"]["content"]
 
-  # salvo la pregunta y respuesta en un csv
-  timestamp = int(time.time())
-  formatted_time = datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M:%S')
-  usuario = session.get('username')
-  salida_csv=[[usuario, formatted_time, pregunta, respuesta, imc, pc_mas_cercano]]
-  escribir_en_archivo_csv(salida_csv, "preguntas.csv")
+  # salvo la pregunta, su embedding y respuesta en un csv
+  escribir_en_archivo_csv(vector, pregunta, respuesta, imc, pc_mas_cercano, "preguntas.csv")
+
+  if respuesta.strip() == "<EOF>":
+     respuesta = "No puedo responder la pregunta con la información entregada"
 
   return respuesta, archivos[imc], contexto, prompt, pc_mas_cercano
 
