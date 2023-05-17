@@ -106,10 +106,12 @@ def busca_contexto(vector, embeddings, textos):
 
   mas_cercano = -1
   segundo_mas_cercano = -1
+  imc = 0
   for i in range(len(embeddings)):
     resultado = dot_product(vector, embeddings[i])
     if resultado > mas_cercano:
       segundo_mas_cercano = mas_cercano
+      ismc = imc
       mas_cercano = resultado
       imc = i
     elif resultado > segundo_mas_cercano and resultado != mas_cercano:
