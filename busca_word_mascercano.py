@@ -98,6 +98,3 @@ print(textos[imc])
 print(imc, archivos[imc])
 print(" ")
 
-for i in range(len(embeddings)):
-  print(i, resultados[i], textos[i][0:70])
-

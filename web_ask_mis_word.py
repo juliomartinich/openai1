@@ -137,12 +137,10 @@ def get_answer(pregunta, embeddings, textos, archivos):
 
   ( contexto, imc , pc_mas_cercano) = busca_contexto(vector, embeddings, textos)
 
-  prompt_prologo = " Basado solamente en la siguiente informacion: "
+  prompt_prologo = "Basado en la siguiente informacion: "
   prompt_post    = " Responde la siguiente pregunta en pocas palabras: ¿ "
   prompt_post_2  = "  ? Si con la informacion proporcionada no se puede \
-                     responder la pregunta, responde solamente <EOF>"
-#solamente y en forma precisa: \
-#                     Intente hacer la pregunta de otra forma."
+                     responder la pregunta, responde <EOF>"
 
   prompt = prompt_prologo \
          + contexto       \
@@ -168,7 +166,7 @@ def get_answer(pregunta, embeddings, textos, archivos):
   # salvo la pregunta, su embedding y respuesta en un csv
   escribir_en_archivo_csv(vector, pregunta, respuesta, imc, pc_mas_cercano, "preguntas.csv")
 
-  if respuesta.strip() == "<EOF>":
+  if "EOF" in respuesta:
      respuesta = "No puedo responder la pregunta con la información entregada"
 
   return respuesta, archivos[imc], contexto, prompt, pc_mas_cercano

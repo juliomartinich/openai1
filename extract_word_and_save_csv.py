@@ -6,7 +6,7 @@
 import os, csv, docx
 
 print("--- leo una lista de parrafos de los archivos que encuentre ---")
-file_name = "mis_word.csv"
+file_name = "mis_word_p.csv"
 # Open the file in write mode
 with open(file_name, mode='w', newline='', encoding='utf-8') as file:
   # Create a CSV writer object
@@ -15,7 +15,7 @@ with open(file_name, mode='w', newline='', encoding='utf-8') as file:
   qparrafos = 0
   row = []
   #list of the full paths to all Word files in the directory and subdirectories
-  directory = "/Users/stjepan/Desktop"
+  directory = "/Users/stjepan/Desktop/words"
   for root, directories, files in os.walk(directory):
     for file in files:
       # los archivos temporales empiezan con "~$" y son ilegibles

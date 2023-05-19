@@ -8,9 +8,9 @@ def dot_product(vector1, vector2):
     dot_product = sum(x * y for x, y in zip(vector1, vector2))
     return dot_product
 
-archivo_uno = "catalogo_preguntas_embed.csv"
+archivo_uno = "mis_word_p_embed.csv"
 archivo_dos = "mis_word_embed.csv"
-archivo_tres = "cruz_preguntas_parrafos.csv"
+archivo_tres = "cruz_preguntasyparrafos_originales.csv"
 
 with open(archivo_uno, newline='') as csv_uno, \
      open(archivo_dos, newline='') as csv_dos, \

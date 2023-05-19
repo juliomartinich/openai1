@@ -16,8 +16,8 @@
       <p> <a href="/logout">Salir</a></p>
     </form>
     {% if frespuesta %}
-      <p><b>Pregunta realizada:</b> ¿{{ fpregunta }}?</p>
-      <p><b>Respuesta:</b> {{ frespuesta }}</p>
+      <p class="pregunta"><b>Pregunta realizada:</b> ¿{{ fpregunta }}?</p>
+      <p class="respuesta"><b>Respuesta:</b> {{ frespuesta }}</p>
       <hr>
       <p class="parrafos"><b>Coincidencia = </b> {{ fclosest }}</p>
       <p class="parrafos">Basado en el siguiente párrafo del archivo <b>{{ farchivo }}</b></p>

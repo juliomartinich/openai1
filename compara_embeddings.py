@@ -1,6 +1,6 @@
 # operaciones leyendo vectores embeddings guardados en un archivo csv
+# pruebas preliminares de enbeddings
 #
-# estoy tratando de calcular el segundo mayor, en base al ejemplo cv.py
 #
 def dot_product(vector1, vector2):
   # Calculates the dot product of two vectors.

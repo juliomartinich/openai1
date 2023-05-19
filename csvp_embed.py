@@ -12,13 +12,13 @@ def read_embedding(texto):
   return vector_embedding
 
 # Define the file name and path where the CSV file is located
-file_name_read = "catalogo_preguntas.csv"
-file_name_save = "catalogo_preguntas_embed.csv"
+file_name_read = "mis_word_p.csv"
+file_name_save = "mis_word_p_embed.csv"
 
 # Open the file in read mode
 with open(file_name_read, mode='r') as file_read:
     # Create a CSV reader object
-    reader = csv.reader(file_read, delimiter=";")
+    reader = csv.reader(file_read, delimiter=",")
 
     # Open the file in write mode
     with open(file_name_save, mode='w', newline='') as file_save:
