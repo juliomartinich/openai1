@@ -81,7 +81,7 @@ def procesar_mensaje():
 def obtener_respuesta_chatbot(mensaje_usuario):
     global conversacion
     global parrafos, archivos, textos, embeddings
-    global primero
+    global primero, imc, pc_mas_cercano
 
     if primero:
         vector = wf.read_embedding(mensaje_usuario)
@@ -109,6 +109,8 @@ def obtener_respuesta_chatbot(mensaje_usuario):
         return "Prueba de nuevo: " + error_messaje
     except Exception as e:
         return "Error: " + e.__str__()
+
+    wf.escribir_en_archivo_csv([], mensaje_usuario, respuesta_chatbot, imc, pc_mas_cercano, "ail_preguntas.csv")
 
     conversacion.append({"role": "assistant", "content": respuesta_chatbot})
 
