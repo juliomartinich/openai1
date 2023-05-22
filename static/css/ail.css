@@ -1,0 +1,50 @@
+body { font-family: Arial, sans-serif; }
+
+#chatbox {
+        max-height: 60vh; /* Tamaño máximo del 60% de la altura de la página */
+        overflow: auto; /* Mostrar barras de desplazamiento si es necesario */
+        background-color: #FFFFE0; /* Amarillo claro */
+        border-radius: 5px;
+        padding: 8px; 
+        border: 1px solid lightgray;"
+      }
+
+input[type="submit"] {
+      display: inline-block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+}
+
+input[type="submit"]:hover {
+      background-color: #45a049;
+}
+
+p.asistente {
+        color: darkblue;
+        text-align: left;
+      }
+p.usuario {
+        color: darkgreen;
+        text-align: right;
+      }
+table {
+        border-collapse: collapse;
+      }
+
+td, th {
+        padding: 8px;
+      }
+
+input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+
+b {
+        font-weight: bold;
+      }
+

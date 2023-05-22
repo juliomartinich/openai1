@@ -2,28 +2,7 @@
 <html>
 <head>
     <title>AIL</title>
-    <style>
-      #chatbox {
-         max-height: 60vh; /* Tamaño máximo del 60% de la altura de la página */
-         overflow: auto; /* Mostrar barras de desplazamiento si es necesario */
-         background-color: #FFFFE0; /* Amarillo claro */
-      }
-      p.asistente {
-        color: darkblue;
-        text-align: left;
-      }
-      p.usuario {
-        color: darkgreen;
-        text-align: right;
-      }
-      table {
-        border-collapse: collapse;
-      }
-    
-      td, th {
-        padding: 8px;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ail.css') }}" >
 </head>
 <body>
     <table style="width: 100%; ">
@@ -37,11 +16,8 @@
       </tr>
       <tr>
         <td colspan="2" >
-           <div id="chatbox" 
-                style="border-radius: 5px;
-                       padding: 8px; 
-                       border: 1px solid lightgray;" > 
-             <p class="asistente"><strong>AIL:</strong>
+           <div id="chatbox" > 
+             <p class="asistente"><b>AIL:</b>
                  Soy tu Ayudante de Información Legal, hazme una pregunta
                  y te responderé con los conocimientos que me han entregado
              </p> 
@@ -51,7 +27,8 @@
       <tr>
         <td colspan="2" >
           <form id="chatForm" onsubmit="enviarMensaje(event)">
-            <input style="width:90%; color:darkblue; " type="text" id="inputbox" autocomplete="off" />
+            <input style="width:90%; color:darkgreen;" 
+               maxlength="160" type="text" id="inputbox" autocomplete="off" />
             <input style="text-align: right;" type="submit" value="Enviar" />
           </form>
         </td>
@@ -90,7 +67,7 @@
         // Función para agregar mensajes del usuario al chatbox
         function agregarMensajeUsuario(mensaje) {
             var chatbox = document.getElementById("chatbox");
-            var mensajeHTML = '<p class="usuario"><strong>Tú:</strong> '
+            var mensajeHTML = '<p class="usuario"><b>Tú:</b> '
             mensajeHTML += mensaje + '</p>';
             chatbox.innerHTML += mensajeHTML;
             chatbox.scrollTop = chatbox.scrollHeight;
@@ -99,7 +76,7 @@
         // Función para agregar mensajes del chatbot al chatbox
         function agregarMensajeChatbot(respuesta) {
             var chatbox = document.getElementById("chatbox");
-            var mensajeHTML = '<p class="asistente"><strong>AIL:</strong> ' 
+            var mensajeHTML = '<p class="asistente"><b>AIL:</b> ' 
             mensajeHTML += respuesta + '</p>';
             chatbox.innerHTML += mensajeHTML;
             chatbox.scrollTop = chatbox.scrollHeight;

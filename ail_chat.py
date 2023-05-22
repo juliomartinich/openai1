@@ -4,7 +4,7 @@ import web_funciones as wf
 
 def inicia_chat():
    chat = []  # Reinicia la variable de conversación
-   mensaje = "Eres AIL, el Asistente de Información Legal de Consorcio. "
+   mensaje = "Eres AIL, el Asistente de Información Legal de Consorcio y yo soy un Cajero. "
    mensaje += "Responde basado solo en la informacion que yo te entregue. "
    mensaje += "Si la pregunta no se refiere a esa informacion responde No tengo informacion."
    chat.append({"role": "user", "content": mensaje})
@@ -89,7 +89,8 @@ def obtener_respuesta_chatbot(mensaje_usuario):
         conversacion.append({"role": "user", "content": contexto})
         primero = False
 
-    mensaje = "responde la pregunta solo con la informacion entregada: " + mensaje_usuario
+    mensaje = "responde la pregunta solo con la informacion entregada en no mas de 100 palabras: ¿ "
+    mensaje += wf.eliminar_signos_especiales(mensaje_usuario) + " ? "
     conversacion.append({"role": "user", "content": mensaje})
 
     # Obtener la respuesta del chatbot y actualizar el contexto de la conversación
@@ -97,7 +98,7 @@ def obtener_respuesta_chatbot(mensaje_usuario):
       respuesta_chatbot = openai.ChatCompletion.create(
          messages = conversacion,
          model  = "gpt-3.5-turbo",
-         max_tokens = 100,
+         max_tokens = 200,
          temperature = 0
       )["choices"][0]["message"]["content"]
     except openai.error.APIError as e:
