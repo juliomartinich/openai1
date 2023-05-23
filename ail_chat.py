@@ -72,13 +72,14 @@ def reset_conversacion():
 # Ruta API REST para recibir y procesar las solicitudes del usuario
 @app.route('/mensaje', methods=['POST'])
 def procesar_mensaje():
-    global pc_mas_cercano
+    global contexto, imc, pc_mas_cercano
 
     mensaje_usuario = request.form['mensaje']
     respuesta_chatbot = obtener_respuesta_chatbot(mensaje_usuario)
     respuesta = { 'mensaje': respuesta_chatbot, 'pc_mas_cercano': pc_mas_cercano }
+    respuesta['contexto'] = contexto
+    respuesta['imc'] = imc
     # ahora devuelvo un json
-    print(respuesta)
     return respuesta
 
 #----------------------------------------------------------------
@@ -87,7 +88,7 @@ def procesar_mensaje():
 def obtener_respuesta_chatbot(mensaje_usuario):
     global conversacion
     global parrafos, archivos, textos, embeddings
-    global primero, imc, pc_mas_cercano
+    global primero, contexto, imc, pc_mas_cercano
 
     if primero:
         vector = wf.read_embedding(mensaje_usuario)

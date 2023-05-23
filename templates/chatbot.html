@@ -7,7 +7,7 @@
 <body>
     <table style="width: 100%; ">
       <tr>
-        <td><h2>AIL Ayudante de Información Legal</h2> </td>
+        <td><h2>AIL - Ayudante de Información Legal</h2> </td>
         <td style="text-align: right;">
           <form action="/reset" method="post">
             <input type="submit" value="Reinicie la conversación" />
@@ -27,11 +27,15 @@
       </tr>
       <tr>
         <td colspan="2" >
-          <form id="chatForm" onsubmit="enviarMensaje(event)">
-            <input style="width:90%; color:darkgreen;" 
-               maxlength="160" type="text" id="inputbox" autocomplete="off" />
-            <input style="text-align: right;" type="submit" value="Enviar" />
+          <form id="chatForm" onsubmit="enviarMensaje(event)" style="width: 100%; display: flex;">
+            <input type="text" style="flex-grow: 1; color:darkgreen;" 
+               maxlength="160" id="inputbox" autocomplete="off" />
+            <input type="submit" style="text-align: right; margin-left: 10px;" value="Preguntar" />
           </form>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2"> <div id="informacionextra" style="font-size: 10px;"> </div>
         </td>
       </tr>
     </table>
@@ -76,15 +80,23 @@
 
         // Función para agregar mensajes del chatbot al chatbox
         function agregarMensajeChatbot(respuesta) {
+            var jsonData = JSON.parse(respuesta);
+            //
             var chatbox = document.getElementById("chatbox");
             var mensajeHTML = '<p class="asistente"><b>AIL:</b> ' ;
-            var jsonData = JSON.parse(respuesta);
             var respuesta_texto = jsonData.mensaje;
-            var respuesta_pc_mas_cercano = jsonData.pc_mas_cercano;
-            //
             mensajeHTML += respuesta_texto + '</p>';
             chatbox.innerHTML += mensajeHTML;
             chatbox.scrollTop = chatbox.scrollHeight;
+            //
+            var informacionextra = document.getElementById("informacionextra");
+            var respuesta_pc_mas_cercano = jsonData.pc_mas_cercano;
+            var respuesta_contexto       = jsonData.contexto;
+            var respuesta_imc            = jsonData.imc;
+            var mHTML = '<p>' + respuesta_pc_mas_cercano;
+            mHTML += " / " + respuesta_imc;
+            mHTML += " / " + respuesta_contexto + '</p>';
+            informacionextra.innerHTML = mHTML;
         }
     </script>
 </body>
