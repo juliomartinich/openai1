@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, jsonify
 import os, openai
 import web_funciones as wf
 
@@ -63,6 +63,7 @@ def logout():
 @app.route('/reset', methods=['POST'])
 def reset_conversacion():
     global conversacion, primero
+
     conversacion = inicia_chat()
     primero = True
     return redirect('/')
@@ -71,9 +72,14 @@ def reset_conversacion():
 # Ruta API REST para recibir y procesar las solicitudes del usuario
 @app.route('/mensaje', methods=['POST'])
 def procesar_mensaje():
+    global pc_mas_cercano
+
     mensaje_usuario = request.form['mensaje']
     respuesta_chatbot = obtener_respuesta_chatbot(mensaje_usuario)
-    return respuesta_chatbot
+    respuesta = { 'mensaje': respuesta_chatbot, 'pc_mas_cercano': pc_mas_cercano }
+    # ahora devuelvo un json
+    print(respuesta)
+    return respuesta
 
 #----------------------------------------------------------------
 # Función para obtener la respuesta del chatbot utilizando OpenAI

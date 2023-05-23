@@ -68,7 +68,7 @@
         // Función para agregar mensajes del usuario al chatbox
         function agregarMensajeUsuario(mensaje) {
             var chatbox = document.getElementById("chatbox");
-            var mensajeHTML = '<p class="usuario"><b>Tú:</b> '
+            var mensajeHTML = '<p class="usuario"><b>Tú:</b> ';
             mensajeHTML += mensaje + '</p>';
             chatbox.innerHTML += mensajeHTML;
             chatbox.scrollTop = chatbox.scrollHeight;
@@ -77,8 +77,12 @@
         // Función para agregar mensajes del chatbot al chatbox
         function agregarMensajeChatbot(respuesta) {
             var chatbox = document.getElementById("chatbox");
-            var mensajeHTML = '<p class="asistente"><b>AIL:</b> ' 
-            mensajeHTML += respuesta + '</p>';
+            var mensajeHTML = '<p class="asistente"><b>AIL:</b> ' ;
+            var jsonData = JSON.parse(respuesta);
+            var respuesta_texto = jsonData.mensaje;
+            var respuesta_pc_mas_cercano = jsonData.pc_mas_cercano;
+            //
+            mensajeHTML += respuesta_texto + '</p>';
             chatbox.innerHTML += mensajeHTML;
             chatbox.scrollTop = chatbox.scrollHeight;
         }
