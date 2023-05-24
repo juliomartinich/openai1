@@ -91,7 +91,8 @@ def obtener_respuesta_chatbot(mensaje_usuario):
     global primero, contexto, imc, pc_mas_cercano
 
     if primero:
-        vector = wf.read_embedding(mensaje_usuario)
+        pregunta = "¿ " + mensaje_usuario + " ?"
+        vector = wf.read_embedding(pregunta)
         (contexto, imc, pc_mas_cercano) = wf.busca_contexto(vector, embeddings, textos)
         conversacion.append({"role": "user", "content": contexto})
         primero = False

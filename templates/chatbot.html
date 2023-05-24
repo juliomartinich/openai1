@@ -35,7 +35,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2"> <div id="informacionextra" style="font-size: 10px;"> </div>
+        <td colspan="2"> <div id="informacionextra" > </div>
         </td>
       </tr>
     </table>
@@ -58,9 +58,7 @@
                 // al poner en body mensaje=M, hago que el request.form['mensaje'] funcione
                 body: "mensaje=" + mensajeUsuario
             })
-            .then(function(response) {
-                return response.text();
-            })
+            .then(resp => { return resp.text(); })
             .then(function(respuestaChatbot) {
                 agregarMensajeChatbot(respuestaChatbot);
             })
@@ -85,7 +83,7 @@
             var chatbox = document.getElementById("chatbox");
             var mensajeHTML = '<p class="asistente"><b>AIL:</b> ' ;
             var respuesta_texto = jsonData.mensaje;
-            mensajeHTML += respuesta_texto + '</p>';
+            mensajeHTML += respuesta_texto.replace('.','.<small>') + '</small></p>';
             chatbox.innerHTML += mensajeHTML;
             chatbox.scrollTop = chatbox.scrollHeight;
             //
@@ -93,9 +91,9 @@
             var respuesta_pc_mas_cercano = jsonData.pc_mas_cercano;
             var respuesta_contexto       = jsonData.contexto;
             var respuesta_imc            = jsonData.imc;
-            var mHTML = '<p>' + respuesta_pc_mas_cercano;
+            var mHTML = '<p><small>' + respuesta_pc_mas_cercano;
             mHTML += " / " + respuesta_imc;
-            mHTML += " / " + respuesta_contexto + '</p>';
+            mHTML += " / " + respuesta_contexto + '</small></p>';
             informacionextra.innerHTML = mHTML;
         }
     </script>
