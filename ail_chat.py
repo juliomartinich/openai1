@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, jsonify
-import os, openai
+import os, openai, logging, datetime
 import web_funciones as wf
 
 def inicia_chat():
@@ -22,6 +22,17 @@ mensaje = "aca te entrego informacion: " + textos[0]
 conversacion.append({"role": "user", "content": mensaje})
 primero = True
 
+#configura logging
+logging.basicConfig(filename='ail.log', level=logging.INFO)
+
+@app.before_request
+def log_request_info():
+    # Registra la información de la solicitud HTTP
+    logging.info('Request URL: %s', request.url)
+    #logging.info('Request method: %s', request.method)
+    #logging.info('Request headers: %s', request.headers)
+    #logging.info('Request data: %s', request.get_data())
+
 #-------------------------@
 # Ruta principal del chatbot
 @app.route('/')
@@ -43,6 +54,8 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+
+        logging.info("Login usuario ", session["username"])
 
         if username in users and users[username] == password:
             session['username'] = username
@@ -75,6 +88,9 @@ def procesar_mensaje():
     global contexto, imc, pc_mas_cercano
 
     mensaje_usuario = request.form['mensaje']
+
+    logging.info("Usuario: "+ session["username"]+ "/ Pregunta: "+ mensaje_usuario)
+
     respuesta_chatbot = obtener_respuesta_chatbot(mensaje_usuario)
     respuesta = { 'mensaje': respuesta_chatbot, 'pc_mas_cercano': pc_mas_cercano }
     respuesta['contexto'] = contexto
@@ -126,5 +142,14 @@ def obtener_respuesta_chatbot(mensaje_usuario):
     return respuesta_chatbot
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Configurar el controlador de archivo
+    #file_handler = logging.FileHandler('ail.log')
+    #file_handler.setLevel(logging.INFO)
+    #file_handler.setFormatter(formatter)  # Asignar el formateador personalizado al controlador de archivo
+
+    # Agregar el controlador de archivo al registro
+    #app.logger.addHandler(file_handler)
+
+    app.run()
+
 
