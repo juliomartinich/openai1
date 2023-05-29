@@ -1,0 +1,63 @@
+¿Qué deben hacer los clientes interdictos para actuar legalmente?
+¿Quién representa a los clientes interdictos según una sentencia judicial?
+¿Qué se requiere para acreditar la calidad de curador?
+¿Cuál es la vigencia máxima de la copia de inscripción del Registro de Interdicciones y Prohibiciones de Enajenar?
+¿Qué medidas debe tomar el Banco cuando tiene conocimiento de la declaración de interdicción de un cliente?
+¿Qué productos bancarios deben cerrarse en el caso de un cliente interdicto?
+¿Cuál es el enfoque principal del Curador de Bienes en relación con los clientes interdictos?
+¿Cuáles son las limitaciones de actuación del Curador de Bienes?
+¿Qué se espera que haga el Curador de Bienes en relación con los bienes del cliente interdicto?
+¿Cuál es el propósito principal de la administración y conservación de los bienes del cliente interdicto?
+¿Qué ocurre con los productos en el Banco en caso de fallecimiento del titular de una Cuenta Vista (Cuenta Preferente)?
+¿Qué sucede con los PAC, PAT y los mandatos otorgados a terceros al momento del fallecimiento del cliente?
+¿Cuál es el procedimiento a seguir en caso de fallecimiento del titular de una Cuenta Corriente?
+¿Qué sucede con la línea de crédito y la tarjeta de crédito en caso de fallecimiento del titular?
+¿Se deben pagar los cheques girados antes del fallecimiento del titular?
+¿Cómo se determina quiénes son los herederos y quién puede retirar los fondos de la cuenta?
+¿Qué documentos se requieren para solicitar la liquidación de saldo en caso de fallecimiento del titular?
+¿Qué certificados se deben presentar para entregar los fondos a los herederos?
+¿Qué documentos se deben presentar para autorizar el retiro y/o pago de fondos a los herederos?
+¿Cómo debe realizar el Banco el pago a los herederos?
+¿Qué se debe hacer si no se incluyeron todos los productos en el trámite de posesión efectiva?
+¿Cuánto tiempo debe permanecer abierta la cuenta corriente después del fallecimiento del titular?
+¿Qué documentos se requieren para solicitar una ampliación de posesión efectiva si no se incluyeron todos los productos en el trámite inicial?
+¿A quién debe estar dirigida la orden judicial, al Banco o a la compañía de seguros?
+¿A qué departamento se deben enviar todas las notificaciones judiciales?
+¿Con quiénes se debe validar la legalidad de la orden judicial?
+¿Qué se debe hacer con la copia de la resolución notificada por correo electrónico?
+¿Qué información se debe proporcionar a Informe Legal en relación con la orden judicial?
+¿Se puede firmar un comprobante de recepción sin autorización del área legal?
+¿A dónde se debe dirigir el receptor judicial en caso de embargos en sucursales de Santiago?
+¿A qué área se debe solicitar el monto de los saldos disponibles para embargo?
+¿Qué se debe hacer con los fondos embargados de forma inmediata?
+¿Qué se debe incluir en el correo de respaldo al abogado solicitante?
+¿Qué se debe dejar registrado en el libro de "notificaciones"?
+¿Qué se debe hacer en caso de orden de remisión de los fondos embargados?
+¿Qué se debe hacer en caso de orden de retener los fondos embargados?
+¿Cuáles son las consecuencias del incumplimiento del embargo por parte del Banco?
+¿A quién se debe entregar una copia de la resolución en caso de cancelación de la orden de embargo?
+¿Qué se debe hacer para levantar el embargo y desbloquear o devolver los fondos embargados al cliente?
+¿Qué departamento se encarga de la remisión de los fondos embargados según los términos indicados?
+¿Quién es responsable de pagar las sumas no retenidas en caso de incumplimiento del embargo?
+¿Qué sanciones y acciones penales puede enfrentar el Banco en caso de incumplimiento del embargo?
+¿Qué instrucciones se deben seguir de Gerencia Legal para levantar el embargo y desbloquear o devolver los fondos embargados al cliente?
+¿Bajo qué circunstancias el Banco puede traspasar saldos entre las cuentas de un mismo cliente?
+¿En qué situaciones puede el Banco cargar el valor de las cuotas morosas de créditos contratados por el titular de la cuenta?
+¿Qué puede hacer el Banco con el valor de los cheques devueltos por cualquier causa en la cuenta del depositante?
+¿Cuáles son las condiciones para depositar documentos valorados a nombre de un tercero en una Cuenta Corriente o Cuenta Vista?
+¿Qué requisito se necesita para depositar un vale vista endosable en una Cuenta Corriente o Cuenta Vista?
+¿Qué se permite en caso de que un cliente no sepa o no pueda firmar?
+¿Qué certificación se requiere en caso de utilizar la firma a ruego con la impresión del pulgar?
+¿Qué ocurre con los productos de un cliente con Cuenta Corriente que entra en proceso de liquidación?
+¿Qué sucede con la Cuenta Corriente de un cliente en caso de renegociación?
+¿Se pueden cargar las cuotas morosas de créditos sin autorización por escrito y disponibilidad de fondos?
+¿Se permite el depósito de documentos valorados a nombre de terceros sin endoso?
+¿Se puede depositar un vale vista endosable en una Cuenta Corriente sin el endoso del tercero a favor del tomador?
+¿Se puede utilizar la firma a ruego sin la certificación notarial?
+¿Se pueden mantener abiertos algunos productos de un cliente con Cuenta Corriente en proceso de liquidación?
+¿Se cierra la Cuenta Corriente en caso de renegociación?
+¿El Banco puede traspasar saldos entre las cuentas de un mismo cliente sin autorización del titular o sus apoderados?
+¿El Banco puede cargar el valor de las cuotas morosas de créditos sin disponibilidad de fondos?
+¿El Banco puede cargar el valor de los cheques devueltos solo por ciertas causas en la cuenta del depositante?
+¿Se puede depositar en una Cuenta Corriente o Cuenta Vista documentos valorados a nombre de cualquier tercero sin endoso?
+¿Se puede depositar en una Cuenta Corriente o Cuenta Vista un vale vista endosable sin ningún tipo de endoso?
