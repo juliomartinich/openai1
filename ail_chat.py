@@ -25,6 +25,13 @@ primero = True
 #configura logging
 logging.basicConfig(filename='ail.log', level=logging.INFO)
 
+#-------------------------@
+@app.errorhandler(404)
+def page_not_found(error):
+    # Aquí puedes personalizar la respuesta para las rutas no encontradas
+    return render_template('404.html'), 404
+
+#-------------------------@
 # Manejador de errores personalizado
 @app.errorhandler(Exception)
 def handle_error(e):
@@ -38,6 +45,7 @@ def handle_error(e):
 
     return 'Se ha producido un error inesperado.', 500
 
+#-------------------------@
 @app.before_request
 def log_request_info():
     # Registra la información de la solicitud HTTP
