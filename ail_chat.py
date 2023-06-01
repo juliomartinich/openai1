@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, jsonify
-import os, openai, logging, datetime
+import os, openai, logging, datetime, traceback
 import web_funciones as wf
 
 def inicia_chat():
@@ -25,6 +25,19 @@ primero = True
 #configura logging
 logging.basicConfig(filename='ail.log', level=logging.INFO)
 
+# Manejador de errores personalizado
+@app.errorhandler(Exception)
+def handle_error(e):
+    # Captura información del error
+    error_message = f'Ocurrió un error inesperado: {str(e)}'
+    error_traceback = traceback.format_exc()
+
+    # Registra el error en el archivo de registro
+    logging.error(error_message)
+    logging.error(error_traceback)
+
+    return 'Se ha producido un error inesperado.', 500
+
 @app.before_request
 def log_request_info():
     # Registra la información de la solicitud HTTP
@@ -37,10 +50,9 @@ def log_request_info():
 # Ruta principal del chatbot
 @app.route('/')
 def chatbot():
-    if 'username' in session:
-      return render_template('chatbot.html')
-    else:
-      return redirect('/login')
+    if 'username' not in session: return redirect('/login')
+
+    return render_template('chatbot.html')
 
 #+++++++++++++++++++++++++++++++++++++++
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,12 +67,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        logging.info("Login usuario ", session["username"])
-
         if username in users and users[username] == password:
+            logging.info("Login usuario "+ username )
             session['username'] = username
             return redirect('/')
         else:
+            logging.info("Bad login usuario "+ username )
             return 'Usuario o contraseña incorrectos.'
 
     return render_template('login.html')
@@ -75,6 +87,7 @@ def logout():
 # reset de la conversacion
 @app.route('/reset', methods=['POST'])
 def reset_conversacion():
+    if 'username' not in session: return redirect('/login')
     global conversacion, primero
 
     conversacion = inicia_chat()
@@ -85,6 +98,7 @@ def reset_conversacion():
 # Ruta API REST para recibir y procesar las solicitudes del usuario
 @app.route('/mensaje', methods=['POST'])
 def procesar_mensaje():
+    if 'username' not in session: return redirect('/login')
     global contexto, imc, pc_mas_cercano
 
     mensaje_usuario = request.form['mensaje']

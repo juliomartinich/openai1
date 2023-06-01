@@ -3,6 +3,7 @@
 <head>
     <title>AIL</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ail.css') }}" >
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
     <table style="width: 100%; ">
@@ -40,31 +41,40 @@
       </tr>
     </table>
     <script>
+        // defino una variable global
+        mensaje = ""
+        let ail_variables = { mensaje }
         // Función para enviar mensajes al servidor Flask
         function enviarMensaje(event) {
             event.preventDefault();
             var mensajeUsuario = document.getElementById("inputbox").value;
-            // aca esta el mensaje del usuario, capturado directo del inputbox
-            // lo pone en pantalla
-            agregarMensajeUsuario(mensajeUsuario);
-            // aca limpia el inputbox
-            document.getElementById("inputbox").value = "";
-            // aca llama a la ruta /mensaje con metodo POST del servidor flask
-            fetch("/mensaje", {
+            // intento controlar que el mensaje se envíe dos veces
+            console.log(ail_variables.mensaje)
+            console.log(mensajeUsuario)
+            if ( mensajeUsuario !== "" && mensajeUsuario !== ail_variables.mensaje ) {
+              ail_variables.mensaje = mensajeUsuario;
+              // aca esta el mensaje del usuario, capturado directo del inputbox
+              // lo pone en pantalla
+              agregarMensajeUsuario(mensajeUsuario);
+              // aca limpia el inputbox
+              document.getElementById("inputbox").value = "";
+              // aca llama a la ruta /mensaje con metodo POST del servidor flask
+              fetch("/mensaje", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
                 // al poner en body mensaje=M, hago que el request.form['mensaje'] funcione
                 body: "mensaje=" + mensajeUsuario
-            })
-            .then(resp => { return resp.text(); })
-            .then(function(respuestaChatbot) {
+              })
+              .then(resp => { return resp.text(); })
+              .then(function(respuestaChatbot) {
                 agregarMensajeChatbot(respuestaChatbot);
-            })
-            .catch(function(error) {
-                console.log("Error: " + error);
-            });
+              })
+              .catch(function(error) {
+                  console.log("Error: " + error);
+              });
+            }
         }
 
         // Función para agregar mensajes del usuario al chatbox

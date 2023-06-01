@@ -122,7 +122,7 @@ def busca_contexto(vector, embeddings, textos):
   pc_segundo_mas_cercano = round( 100 * segundo_mas_cercano, 1)
   # despues de este loop imc tiene el indice del mas cercano
 
-  contexto = textos[imc] + " " + textos[ismc]
+  contexto = textos[imc] + "    \n /      " + textos[ismc]
 
   return contexto, imc, pc_mas_cercano
 
