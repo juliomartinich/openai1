@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AEDE</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/aede.css') }}" >
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <style>
+        .form-container {
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+  <table style="width: 100%; ">
+    <tr style="width: 100%; "> <td colspan="2"><h1>AEDE: Asistente Extractor De Entidades</h1></td></tr>
+    <tr>
+      <td style="width: 80%; ">
+        <table style="width: 100%; ">
+          <tr><td>
+            <div class="conversation-container" id="conversation-container">
+               <p class="asistente"><b>AEDE:</b>
+                    Soy tu asistente de vuelos, ¿qué tienes en mente?
+               </p>
+              <!-- Aquí se mostrará la conversación -->
+            </div>
+          </tr></td>
+          <tr><td>
+            <div class="form-container">
+              <form id="user-input-form" style="width: 80%; display: flex;">
+                <input type="text" id="user-input" style="flex-grow: 1; color:darkgreen;" 
+                       placeholder="Ingresa tu mensaje">
+                <button type="submit" style="text-align: right; margin-left: 10px;">Enviar</button>
+              </form>
+            </div>
+          </tr></td>
+        </table>
+      </td>
+      <td style="width: 20%; ">
+        <div class="entity-container" id="entity-container">
+          <!-- Aquí se mostrarán las entidades -->
+        </div>
+      </td>
+    </tr>
+  </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('user-input-form').addEventListener('submit', function(event) {
+                event.preventDefault();  // Evita que se envíe el formulario de forma convencional
+
+                var userInput = document.getElementById('user-input').value;  // Obtiene la entrada del usuario
+                document.getElementById('user-input').value = '';  // Borra el campo de entrada
+
+                var conversationContainer = document.getElementById('conversation-container');
+                conversationContainer.insertAdjacentHTML('beforeend', '<p class="usuario"><b>Tú:</b> ' + userInput + '</p>');
+
+                // Envía la entrada del usuario al servidor usando Fetch
+                fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 'user_input': userInput })
+                })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    // Muestra la respuesta de la IA en el panel de conversación
+                    conversationContainer.insertAdjacentHTML('beforeend', '<p class="asistente"><b>AEDE:</b> ' + data.message + '</p>');
+
+                    // Borra los cuadros de entrada existentes antes de mostrar las nuevas entidades
+                    document.getElementById('entity-container').innerHTML = '';
+
+                    // Muestra las entidades extraídas en cuadros de entrada individuales
+                    for (var entity in data.entities) {
+                        var inputId = 'entity-input-' + entity;
+                        var labelId = 'entity-label-' + entity;
+
+                        // Crea el cuadro de entrada y el label para cada entidad
+                        var entityInput = '<input type="text" id="' + inputId + '" class="entity-input" readonly>';
+                        var entityLabel = '<label for="' + inputId + '">' + entity + '</label>';
+
+                        // Agrega los elementos al contenedor de las entidades
+                        document.getElementById('entity-container').insertAdjacentHTML('beforeend', entityLabel);
+                        document.getElementById('entity-container').insertAdjacentHTML('beforeend', entityInput);
+
+                        // Actualiza el valor del cuadro de entrada con el valor de la entidad detectada
+                        document.getElementById(inputId).value = data.entities[entity];
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
